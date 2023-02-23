@@ -32,6 +32,9 @@ spec:
       securityContext:
         {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
       {{- end }}
+      {{- if .Values.initContainers }}
+      initContainers: {{ .Values.initContainers | toYaml | nindent 8 }}
+      {{- end}}
       containers:
         - name: {{ .Chart.Name }}
           {{- if .Values.containerSecurityContext.enabled }}
