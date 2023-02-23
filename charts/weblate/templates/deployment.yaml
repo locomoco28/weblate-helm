@@ -187,6 +187,14 @@ spec:
             - mountPath: "{{ .Values.persistence.filestore_dir }}/settings-override.py"
               name: weblate-config
               subPath: "settings-override.py"
+            {{- if .Values.additionalVolumes }}
+            {{- range .Values.additionalVolumes }}
+            {{- if .mountToContainer }}
+            - mountPath: {{ .mountPath }}
+              name: {{ .volume.name }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
             {{- if (and .Values.caCertSecretName .Values.caCertSubPath )}}
             - mountPath: /{{ .Values.caCertSubPath }}
               name: ca-bundle
@@ -208,6 +216,12 @@ spec:
         {{- else }}
           emptyDir: {}
         {{- end -}}
+        {{- if .Values.additionalVolumes }}
+        {{- range .Values.additionalVolumes }}
+        {{ .volume | toYaml | nindent 8 }}
+        {{- end }}
+        {{ .Values.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
       {{- if (and .Values.caCertSecretName .Values.caCertSubPath )}}
         - name: ca-bundle
           secret:
