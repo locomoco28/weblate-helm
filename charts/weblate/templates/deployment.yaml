@@ -218,7 +218,7 @@ spec:
         {{- end -}}
         {{- if .Values.additionalVolumes }}
         {{- range .Values.additionalVolumes }}
-        {{ .volume | toYaml | nindent 8 }}
+        {{ . | toYaml | nindent 8 }}
         {{- end }}
         {{ .Values.additionalVolumes | toYaml | nindent 8}}
         {{- end }}
