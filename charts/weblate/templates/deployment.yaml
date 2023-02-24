@@ -217,9 +217,6 @@ spec:
           emptyDir: {}
         {{- end -}}
         {{- if .Values.additionalVolumes }}
-        {{- range .Values.additionalVolumes }}
-        {{ . | toYaml | nindent 8 }}
-        {{- end }}
         {{ .Values.additionalVolumes | toYaml | nindent 8}}
         {{- end }}
       {{- if (and .Values.caCertSecretName .Values.caCertSubPath )}}
